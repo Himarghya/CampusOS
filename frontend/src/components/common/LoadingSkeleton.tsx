@@ -1,19 +1,16 @@
 import React from 'react';
+import clsx from 'clsx';
 
-export const LoadingSkeleton: React.FC<{ rows?: number }> = ({ rows = 4 }) => {
+export const LoadingSkeleton: React.FC<{ rows?: number; className?: string }> = ({
+  rows = 4,
+  className,
+}) => {
   return (
-    <div className="space-y-4 animate-pulse">
-      <div className="h-8 bg-[#162032] rounded-2xl w-1/4" />
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-28 bg-[#111827] border border-slate-800 rounded-2xl" />
-        ))}
-      </div>
-      <div className="space-y-3 pt-4">
-        {[...Array(rows)].map((_, i) => (
-          <div key={i} className="h-16 bg-[#111827] border border-slate-800 rounded-2xl" />
-        ))}
-      </div>
+    <div className={clsx('space-y-3 animate-pulse', className)}>
+      <div className="h-8 bg-slate-200 rounded-xl w-1/3 mb-4" />
+      {Array.from({ length: rows }).map((_, i) => (
+        <div key={i} className="h-16 bg-slate-100 rounded-2xl w-full" />
+      ))}
     </div>
   );
 };

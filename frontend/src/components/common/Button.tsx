@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { LucideIcon } from 'lucide-react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost' | 'cyan' | 'purple';
+  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   icon?: LucideIcon;
   loading?: boolean;
@@ -11,7 +11,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button: React.FC<ButtonProps> = ({
   children,
-  variant = 'cyan',
+  variant = 'primary',
   size = 'md',
   icon: Icon,
   loading = false,
@@ -20,26 +20,24 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const variantStyles = {
-    cyan: 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold shadow-md shadow-cyan-500/25 border border-cyan-400/50',
-    primary: 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/30 border border-indigo-400/30 font-bold',
-    purple: 'bg-purple-600 hover:bg-purple-500 text-white shadow-md shadow-purple-600/30 border border-purple-400/30 font-bold',
-    secondary: 'bg-[#162032] hover:bg-[#1E2C44] text-slate-200 border border-slate-700/80 font-semibold',
-    outline: 'border border-cyan-500/40 text-cyan-300 hover:bg-cyan-950/40 bg-transparent font-semibold',
-    danger: 'bg-rose-600 hover:bg-rose-500 text-white shadow-md shadow-rose-600/30 border border-rose-400/30 font-bold',
-    ghost: 'text-slate-300 hover:text-white hover:bg-slate-800/60 border border-transparent font-semibold',
+    primary: 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm shadow-indigo-200 border border-transparent',
+    secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200',
+    outline: 'border border-indigo-200 text-indigo-600 hover:bg-indigo-50 bg-white',
+    danger: 'bg-rose-600 hover:bg-rose-700 text-white shadow-sm shadow-rose-200 border border-transparent',
+    ghost: 'text-slate-600 hover:bg-slate-100 border border-transparent',
   };
 
   const sizeStyles = {
-    sm: 'px-3 py-1.5 text-xs font-semibold rounded-xl gap-1.5',
-    md: 'px-4 py-2 text-xs font-bold rounded-xl gap-2',
-    lg: 'px-5 py-2.5 text-sm font-bold rounded-xl gap-2.5',
+    sm: 'px-3 py-1.5 text-xs font-semibold rounded-lg gap-1.5',
+    md: 'px-4 py-2 text-sm font-semibold rounded-xl gap-2',
+    lg: 'px-5 py-2.5 text-base font-semibold rounded-xl gap-2.5',
   };
 
   return (
     <button
       disabled={disabled || loading}
       className={clsx(
-        'inline-flex items-center justify-center transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer select-none',
+        'inline-flex items-center justify-center transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer',
         variantStyles[variant],
         sizeStyles[size],
         className

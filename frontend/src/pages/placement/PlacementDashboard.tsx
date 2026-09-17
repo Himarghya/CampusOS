@@ -6,31 +6,22 @@ import {
   Building,
   Users,
   CheckCircle2,
+  Award,
+  Clock,
   TrendingUp,
+  DollarSign,
+  FileCheck,
+  Globe,
   Sparkles,
   ArrowRight,
+  Target,
   BarChart3,
-  Search,
-  Calendar,
-  Layers,
-  ChevronDown,
 } from 'lucide-react';
 import { StatCard } from '../../components/common/StatCard';
 import { LoadingSkeleton } from '../../components/common/LoadingSkeleton';
 import { Badge } from '../../components/common/Badge';
 import { Link } from 'react-router-dom';
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  AreaChart,
-  Area,
-  LineChart,
-  Line,
-} from 'recharts';
+import { Button } from '../../components/common/Button';
 
 export const PlacementDashboard: React.FC = () => {
   const { data, isLoading } = useQuery({
@@ -43,384 +34,212 @@ export const PlacementDashboard: React.FC = () => {
 
   if (isLoading) return <LoadingSkeleton rows={6} />;
 
-  const hiringStats = [
-    { name: 'Companies Visited', value: 85, fill: '#00F2FE' },
-    { name: 'Offers', value: 312, fill: 'url(#cyanPurpleGrad)' },
-    { name: 'Students Placed', value: 290, fill: '#A855F7' },
+  const kpis = data?.kpis || {
+    totalCompanies: 42,
+    activeDrives: 6,
+    totalApplications: 528,
+    selectedCount: 68,
+    shortlistedCount: 112,
+  };
+
+  const drives = data?.drives || [
+    {
+      id: 'd1',
+      companyName: 'Google',
+      jobRole: 'Software Development Engineer - I',
+      packageLpa: '45.0',
+      minCgpa: 8.5,
+      deadline: '2026-06-20T23:59:59Z',
+      applicationsCount: 184,
+      status: 'OPEN',
+      mode: 'ON_CAMPUS',
+    },
+    {
+      id: 'd2',
+      companyName: 'Microsoft',
+      jobRole: 'Cloud Solutions Architect',
+      packageLpa: '38.5',
+      minCgpa: 8.0,
+      deadline: '2026-06-25T23:59:59Z',
+      applicationsCount: 142,
+      status: 'OPEN',
+      mode: 'ON_CAMPUS',
+    },
+    {
+      id: 'd3',
+      companyName: 'Qualcomm',
+      jobRole: 'Systems Software & VLSI Engineer',
+      packageLpa: '28.0',
+      minCgpa: 7.5,
+      deadline: '2026-06-28T23:59:59Z',
+      applicationsCount: 96,
+      status: 'SHORTLISTING',
+      mode: 'HYBRID',
+    },
+    {
+      id: 'd4',
+      companyName: 'Goldman Sachs',
+      jobRole: 'Quantitative Technology Analyst',
+      packageLpa: '32.0',
+      minCgpa: 8.0,
+      deadline: '2026-07-02T23:59:59Z',
+      applicationsCount: 106,
+      status: 'OPEN',
+      mode: 'ON_CAMPUS',
+    },
   ];
 
-  const offersTrendData = [
-    { month: 'Jun', offers: 50 },
-    { month: 'Jul', offers: 140 },
-    { month: 'Aug', offers: 110 },
-    { month: 'Sep', offers: 360 },
-    { month: 'Oct', offers: 180 },
-    { month: 'Nov', offers: 320 },
-  ];
-
-  const ctcComparisonData = [
-    { month: 'Jan', tier1: 120, tier2: 80 },
-    { month: 'Feb', tier1: 210, tier2: 150 },
-    { month: 'Mar', tier1: 340, tier2: 260 },
-    { month: 'Apr', tier1: 310, tier2: 440 },
-    { month: 'May', tier1: 420, tier2: 380 },
-    { month: 'Jun', tier1: 580, tier2: 240 },
-  ];
+  const topRecruiters = ['Google', 'Microsoft', 'Qualcomm', 'Cisco', 'Amazon', 'Goldman Sachs', 'Oracle', 'Nvidia'];
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
-      {/* Title Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-xl lg:text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <span>University Placement & Admin Governance</span>
-            <span className="text-slate-500 font-normal">|</span>
-            <span className="text-cyan-400 font-semibold text-lg">Dashboard</span>
-          </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Real-time corporate recruitment pipelines, student shortlisting workflows, and examination controls.
-          </p>
+      {/* Placement Season Hero Banner */}
+      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 flex items-center justify-center font-black text-xl shadow-inner">
+            <Briefcase className="w-7 h-7" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl font-black tracking-tight">Corporate Relations & Placement Hub</h1>
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                Season 2026 Live
+              </span>
+            </div>
+            <p className="text-xs text-slate-300 mt-0.5">
+              Highest CTC: <strong className="text-emerald-400">₹45.0 LPA</strong> • Average CTC: <strong className="text-white">₹14.2 LPA</strong> • Placement Rate: <strong className="text-sky-300">88.4%</strong>
+            </p>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Link
             to="/placement/drives"
-            className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-black transition-all flex items-center gap-2 shadow-lg shadow-cyan-500/25 border border-cyan-400"
+            className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-900/50"
           >
             <Briefcase className="w-4 h-4" />
             <span>Manage Drives</span>
           </Link>
           <Link
-            to="/placement/analytics"
-            className="px-4 py-2 rounded-xl bg-[#162032] hover:bg-[#1E2C44] text-slate-200 text-xs font-bold transition-all flex items-center gap-2 border border-slate-700/80"
+            to="/placement/companies"
+            className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition flex items-center gap-1.5 backdrop-blur-sm"
           >
-            <BarChart3 className="w-4 h-4 text-cyan-400" />
-            <span>Full Analytics</span>
+            <Building className="w-4 h-4" />
+            <span>Recruiters</span>
+          </Link>
+          <Link
+            to="/placement/analytics"
+            className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition flex items-center gap-1.5 backdrop-blur-sm"
+          >
+            <BarChart3 className="w-4 h-4" />
+            <span>Analytics</span>
           </Link>
         </div>
       </div>
 
-      {/* TOP SECTION: Upcoming Recruitment Drives */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span>Upcoming Recruitment Drives</span>
-          </h2>
-          <span className="text-xs text-cyan-400 font-semibold">Dashboard ▾</span>
+      {/* 4 Enhanced Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard
+          title="Active Drives"
+          value={kpis.activeDrives}
+          subtitle="Open for student applications"
+          icon={Briefcase}
+          variant="purple"
+        />
+        <StatCard
+          title="Partner Companies"
+          value={kpis.totalCompanies}
+          subtitle="Registered global employers"
+          icon={Building}
+          variant="blue"
+        />
+        <StatCard
+          title="Total Applications"
+          value={kpis.totalApplications}
+          subtitle="Verified candidate submissions"
+          icon={Users}
+          variant="amber"
+        />
+        <StatCard
+          title="Shortlists & Offers"
+          value={`${kpis.shortlistedCount} / ${kpis.selectedCount}`}
+          subtitle="Selected job offers"
+          icon={CheckCircle2}
+          variant="green"
+        />
+      </div>
+
+      {/* Hiring Partners Ticker */}
+      <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-2 text-xs font-bold text-slate-700 shrink-0">
+          <Sparkles className="w-4 h-4 text-indigo-600" />
+          <span>Featured Campus Recruiters:</span>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {topRecruiters.map((brand, idx) => (
+            <span
+              key={idx}
+              className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700"
+            >
+              {brand}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Main Table: Active Drives */}
+      <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <h3 className="text-base font-bold text-slate-900">Active Recruitment Drives & Application Pipelines</h3>
+            <p className="text-xs text-slate-500 mt-0.5">Manage job postings, eligibility filters, and candidate shortlists</p>
+          </div>
+          <Link to="/placement/drives" className="text-xs font-bold text-indigo-600 hover:underline">
+            View All Drives
+          </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Drive 1: Google */}
-          <div className="bg-[#111827] border border-slate-800 hover:border-cyan-500/40 rounded-2xl p-4.5 transition-all shadow-lg group">
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-slate-800/90 border border-slate-700 flex items-center justify-center font-black text-lg text-white">
-                  <span className="text-gradient-cyan">G</span>
+        <div className="space-y-3.5">
+          {drives.map((d: any) => (
+            <div
+              key={d.id}
+              className="p-4 rounded-2xl border border-slate-100 bg-slate-50/60 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-slate-50 transition-colors"
+            >
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100 flex items-center justify-center font-black text-sm shrink-0">
+                  {d.companyName.substring(0, 2).toUpperCase()}
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white">Google</h3>
-                  <p className="text-xs text-slate-400">Software Engineer</p>
-                </div>
-              </div>
-              <span className="px-2.5 py-1 rounded-lg bg-slate-800 text-[11px] font-semibold text-slate-300 border border-slate-700">
-                Aug 15-18
-              </span>
-            </div>
-            <div className="flex items-center justify-between text-xs text-slate-400 mt-4 mb-2">
-              <span><strong>120</strong> applied</span>
-              <span><strong>45</strong> shortlisted</span>
-            </div>
-            <div className="space-y-1">
-              <div className="flex justify-between text-[11px] text-cyan-400 font-semibold">
-                <span>Status: Ongoing</span>
-              </div>
-              <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                <div className="bg-gradient-to-r from-cyan-400 to-teal-400 h-full w-[65%]" />
-              </div>
-            </div>
-          </div>
-
-          {/* Drive 2: Microsoft */}
-          <div className="bg-[#111827] border border-slate-800 hover:border-purple-500/40 rounded-2xl p-4.5 transition-all shadow-lg group">
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-slate-800/90 border border-slate-700 flex items-center justify-center font-black text-sm text-white">
-                  <div className="grid grid-cols-2 gap-0.5 w-4 h-4">
-                    <div className="bg-rose-500 rounded-xs" />
-                    <div className="bg-emerald-500 rounded-xs" />
-                    <div className="bg-sky-500 rounded-xs" />
-                    <div className="bg-amber-500 rounded-xs" />
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider">{d.companyName}</span>
+                    <Badge variant={d.status === 'OPEN' ? 'success' : 'warning'}>
+                      {d.status}
+                    </Badge>
+                  </div>
+                  <h4 className="text-sm font-bold text-slate-900 mt-0.5">{d.jobRole}</h4>
+                  <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 mt-1">
+                    <span className="font-bold text-slate-800">₹{d.packageLpa} LPA CTC</span>
+                    <span>•</span>
+                    <span>Min CGPA: <strong>{d.minCgpa}</strong></span>
+                    <span>•</span>
+                    <span>Deadline: <strong>{new Date(d.deadline).toLocaleDateString()}</strong></span>
                   </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-bold text-white">Microsoft</h3>
-                  <p className="text-xs text-slate-400">SDE II</p>
-                </div>
               </div>
-              <span className="px-2.5 py-1 rounded-lg bg-slate-800 text-[11px] font-semibold text-slate-300 border border-slate-700">
-                Aug 22-25
-              </span>
-            </div>
-            <div className="flex items-center justify-between text-xs text-slate-400 mt-4 mb-2">
-              <span><strong>95</strong> applied</span>
-              <span><strong>32</strong> shortlisted</span>
-            </div>
-            <div className="space-y-1">
-              <div className="flex justify-between text-[11px] text-purple-400 font-semibold">
-                <span>Status: Upcoming</span>
-              </div>
-              <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                <div className="bg-gradient-to-r from-purple-500 to-indigo-500 h-full w-[45%]" />
+
+              <div className="flex items-center gap-3 self-end md:self-center">
+                <span className="px-3 py-1.5 rounded-xl bg-indigo-50 text-indigo-700 font-extrabold text-xs">
+                  {d.applicationsCount} Applicants
+                </span>
+                <Link
+                  to="/placement/drives"
+                  className="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white hover:bg-slate-800 text-xs font-bold transition shadow-xs"
+                >
+                  Manage Shortlists
+                </Link>
               </div>
             </div>
-          </div>
-
-          {/* Drive 3: Amazon */}
-          <div className="bg-[#111827] border border-slate-800 hover:border-cyan-500/40 rounded-2xl p-4.5 transition-all shadow-lg group">
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-slate-800/90 border border-slate-700 flex items-center justify-center font-black text-lg text-amber-400">
-                  a
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-white">Amazon</h3>
-                  <p className="text-xs text-slate-400">Data Scientist</p>
-                </div>
-              </div>
-              <span className="px-2.5 py-1 rounded-lg bg-slate-800 text-[11px] font-semibold text-slate-300 border border-slate-700">
-                Aug 29-Sep 1
-              </span>
-            </div>
-            <div className="flex items-center justify-between text-xs text-slate-400 mt-4 mb-2">
-              <span><strong>150</strong> applied</span>
-              <span><strong>58</strong> shortlisted</span>
-            </div>
-            <div className="space-y-1">
-              <div className="flex justify-between text-[11px] text-cyan-400 font-semibold">
-                <span>Status: Active</span>
-              </div>
-              <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                <div className="bg-gradient-to-r from-cyan-400 to-teal-400 h-full w-[78%]" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* MIDDLE SECTION: Placement Analytics Charts */}
-      <div>
-        <h2 className="text-sm font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
-          <BarChart3 className="w-4 h-4 text-cyan-400" />
-          <span>Placement Analytics</span>
-        </h2>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          {/* Chart 1: Hiring Statistics */}
-          <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col justify-between">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-300">Hiring Statistics</h3>
-            </div>
-            <div className="h-48 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={hiringStats} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="cyanPurpleGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#00F2FE" />
-                      <stop offset="100%" stopColor="#A855F7" />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="name" stroke="#64748B" fontSize={10} tickLine={false} />
-                  <YAxis stroke="#64748B" fontSize={10} tickLine={false} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#1E293B',
-                      borderColor: '#334155',
-                      borderRadius: '12px',
-                      color: '#fff',
-                      fontSize: '11px',
-                    }}
-                  />
-                  <Bar dataKey="value" radius={[6, 6, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Chart 2: Offers Trend */}
-          <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col justify-between">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-300">Offers Trend</h3>
-              <span className="text-[10px] text-slate-500">Offers over time</span>
-            </div>
-            <div className="h-48 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={offersTrendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="cyanAreaGlow" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#00F2FE" stopOpacity={0.4} />
-                      <stop offset="100%" stopColor="#00F2FE" stopOpacity={0.0} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="month" stroke="#64748B" fontSize={10} tickLine={false} />
-                  <YAxis stroke="#64748B" fontSize={10} tickLine={false} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#1E293B',
-                      borderColor: '#334155',
-                      borderRadius: '12px',
-                      color: '#fff',
-                      fontSize: '11px',
-                    }}
-                  />
-                  <Area
-                    type="natural"
-                    dataKey="offers"
-                    stroke="#00F2FE"
-                    strokeWidth={2.5}
-                    fillOpacity={1}
-                    fill="url(#cyanAreaGlow)"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Chart 3: CTC Package Offers */}
-          <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col justify-between">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-300">CTC Package Offers</h3>
-            </div>
-
-            {/* Metric Boxes */}
-            <div className="grid grid-cols-2 gap-3 mb-3">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-cyan-950/60 to-slate-900 border border-cyan-500/30">
-                <span className="text-[10px] uppercase font-bold text-slate-400">Highest CTC</span>
-                <div className="text-xl font-black text-cyan-400 mt-0.5">45.0 LPA</div>
-              </div>
-              <div className="p-3 rounded-xl bg-gradient-to-br from-purple-950/60 to-slate-900 border border-purple-500/30">
-                <span className="text-[10px] uppercase font-bold text-slate-400">Average CTC</span>
-                <div className="text-xl font-black text-purple-400 mt-0.5">14.2 LPA</div>
-              </div>
-            </div>
-
-            {/* Dual lines chart */}
-            <div className="h-32 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={ctcComparisonData} margin={{ top: 5, right: 10, left: -25, bottom: 0 }}>
-                  <XAxis dataKey="month" stroke="#64748B" fontSize={10} tickLine={false} />
-                  <YAxis stroke="#64748B" fontSize={10} tickLine={false} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#1E293B',
-                      borderColor: '#334155',
-                      borderRadius: '12px',
-                      color: '#fff',
-                      fontSize: '11px',
-                    }}
-                  />
-                  <Line type="natural" dataKey="tier1" stroke="#00F2FE" strokeWidth={2} dot={false} />
-                  <Line type="natural" dataKey="tier2" stroke="#A855F7" strokeWidth={2} dot={false} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* BOTTOM SECTION: Shortlisting Workflow & Exam Cycle */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {/* Shortlisting Workflow */}
-        <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-lg">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-300">
-              Student Shortlisting Workflow
-            </h3>
-            <div className="flex items-center relative">
-              <Search className="w-3 h-3 text-slate-500 absolute left-2.5" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="pl-7 pr-3 py-1 bg-[#162032] border border-slate-700 rounded-lg text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-4 gap-2 text-center pt-2">
-            {/* Step 1 */}
-            <div className="flex flex-col items-center">
-              <div className="w-14 h-14 rounded-full border-3 border-cyan-400 flex items-center justify-center font-black text-sm text-white bg-cyan-950/30 shadow-xs">
-                540
-              </div>
-              <span className="text-[11px] font-semibold text-slate-300 mt-2">Registrations</span>
-            </div>
-
-            {/* Step 2 */}
-            <div className="flex flex-col items-center">
-              <div className="w-14 h-14 rounded-full border-3 border-purple-500 flex items-center justify-center font-black text-sm text-white bg-purple-950/30 shadow-xs">
-                310
-              </div>
-              <span className="text-[11px] font-semibold text-slate-300 mt-2">Tech Assessment</span>
-            </div>
-
-            {/* Step 3 */}
-            <div className="flex flex-col items-center">
-              <div className="w-14 h-14 rounded-full border-3 border-slate-400 flex items-center justify-center font-black text-sm text-white bg-slate-800/60 shadow-xs">
-                145
-              </div>
-              <span className="text-[11px] font-semibold text-slate-300 mt-2">Interviews</span>
-            </div>
-
-            {/* Step 4 */}
-            <div className="flex flex-col items-center">
-              <div className="w-14 h-14 rounded-full border-3 border-cyan-400 flex items-center justify-center font-black text-sm text-white bg-cyan-950/30 shadow-xs">
-                92
-              </div>
-              <span className="text-[11px] font-semibold text-slate-300 mt-2">Offers</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Examination Cycle Management */}
-        <div className="bg-[#111827] border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-300">
-              Examination Cycle Management
-            </h3>
-            <span className="text-xs text-cyan-400 font-semibold cursor-pointer">Dashboard overview</span>
-          </div>
-
-          <div className="flex items-center justify-between bg-[#162032] p-3 rounded-xl border border-slate-800 mb-3">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-slate-300">Cycle 2023-24</span>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-            </div>
-            <div className="flex items-center gap-3 text-[11px]">
-              <span className="text-slate-400">Schedule: <strong className="text-emerald-400">Confirmed</strong></span>
-              <span className="text-slate-400">Center: <strong className="text-cyan-400">Completed</strong></span>
-              <span className="text-slate-400">Papers: <strong className="text-emerald-400">Published</strong></span>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between pt-1">
-            <div className="text-xs text-slate-400">
-              Active Cycle: <strong className="text-white">2</strong> • Exam Centers: <strong className="text-white">14</strong>
-            </div>
-            <div className="flex items-center gap-2">
-              <Link
-                to="/admin/exams"
-                className="px-3 py-1.5 bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 text-xs font-bold rounded-xl hover:bg-cyan-900/60 transition cursor-pointer"
-              >
-                Manage Schedule
-              </Link>
-              <Link
-                to="/grades"
-                className="px-3 py-1.5 bg-purple-950/60 border border-purple-500/40 text-purple-300 text-xs font-bold rounded-xl hover:bg-purple-900/60 transition cursor-pointer"
-              >
-                View Papers
-              </Link>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

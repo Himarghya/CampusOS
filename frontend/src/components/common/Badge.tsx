@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 interface BadgeProps {
   children: React.ReactNode;
-  variant?: 'primary' | 'success' | 'warning' | 'danger' | 'neutral' | 'purple' | 'cyan';
+  variant?: 'primary' | 'success' | 'warning' | 'danger' | 'neutral' | 'purple';
   size?: 'sm' | 'md';
   className?: string;
 }
@@ -15,24 +15,23 @@ export const Badge: React.FC<BadgeProps> = ({
   className,
 }) => {
   const variantStyles = {
-    cyan: 'bg-cyan-950/60 text-cyan-300 border-cyan-500/40 shadow-xs',
-    primary: 'bg-indigo-950/60 text-indigo-300 border-indigo-500/40',
-    success: 'bg-emerald-950/60 text-emerald-300 border-emerald-500/40',
-    warning: 'bg-amber-950/60 text-amber-300 border-amber-500/40',
-    danger: 'bg-rose-950/60 text-rose-300 border-rose-500/40',
-    neutral: 'bg-slate-800/80 text-slate-300 border-slate-700',
-    purple: 'bg-purple-950/60 text-purple-300 border-purple-500/40',
+    primary: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+    success: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    warning: 'bg-amber-50 text-amber-700 border-amber-200',
+    danger: 'bg-rose-50 text-rose-700 border-rose-200',
+    neutral: 'bg-slate-100 text-slate-700 border-slate-200',
+    purple: 'bg-purple-50 text-purple-700 border-purple-200',
   };
 
   const sizeStyles = {
-    sm: 'px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider',
-    md: 'px-2.5 py-1 text-xs font-bold',
+    sm: 'px-2 py-0.5 text-xs font-semibold',
+    md: 'px-2.5 py-1 text-xs font-semibold',
   };
 
   return (
     <span
       className={clsx(
-        'inline-flex items-center rounded-lg border backdrop-blur-xs',
+        'inline-flex items-center rounded-full border',
         variantStyles[variant],
         sizeStyles[size],
         className

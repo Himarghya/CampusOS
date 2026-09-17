@@ -2,103 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Default Cyber Obsidian Theme (Matches Screenshot Exact Colors) */
-  --color-bg-base: #0B0F17;
-  --color-bg-surface: #121B2A;
-  --color-bg-surface-elevated: #182338;
-  --color-bg-card: #111827;
-  --color-border-subtle: #1E293B;
-  --color-border-accent: rgba(0, 242, 254, 0.25);
-  
-  --color-text-title: #FFFFFF;
-  --color-text-body: #E2E8F0;
-  --color-text-muted: #94A3B8;
-  
-  --color-accent-primary: #00F2FE;
-  --color-accent-secondary: #A855F7;
-  --color-accent-emerald: #10B981;
-  --color-accent-amber: #F59E0B;
-  --color-accent-rose: #F43F5E;
-}
-
-html.theme-midnight-navy {
-  --color-bg-base: #0A1128;
-  --color-bg-surface: #101F42;
-  --color-bg-surface-elevated: #162B59;
-  --color-bg-card: #0D1B3A;
-  --color-border-subtle: #1E3A8A;
-  --color-border-accent: rgba(56, 189, 248, 0.3);
-  
-  --color-text-title: #FFFFFF;
-  --color-text-body: #E0E7FF;
-  --color-text-muted: #93C5FD;
-  
-  --color-accent-primary: #38BDF8;
-  --color-accent-secondary: #818CF8;
-  --color-accent-emerald: #34D399;
-}
-
-html.theme-emerald-matrix {
-  --color-bg-base: #081410;
-  --color-bg-surface: #0E241D;
-  --color-bg-surface-elevated: #14352B;
-  --color-bg-card: #0A1B15;
-  --color-border-subtle: #134E4A;
-  --color-border-accent: rgba(16, 185, 129, 0.3);
-  
-  --color-text-title: #FFFFFF;
-  --color-text-body: #D1FAE5;
-  --color-text-muted: #6EE7B7;
-  
-  --color-accent-primary: #10B981;
-  --color-accent-secondary: #34D399;
-}
-
-html.theme-royal-amethyst {
-  --color-bg-base: #0F0B1E;
-  --color-bg-surface: #1B1333;
-  --color-bg-surface-elevated: #261B47;
-  --color-bg-card: #150F28;
-  --color-border-subtle: #4C1D95;
-  --color-border-accent: rgba(192, 132, 252, 0.3);
-  
-  --color-text-title: #FFFFFF;
-  --color-text-body: #F3E8FF;
-  --color-text-muted: #D8B4FE;
-  
-  --color-accent-primary: #C084FC;
-  --color-accent-secondary: #F43F5E;
-}
-
-html.theme-clean-light {
-  --color-bg-base: #F8FAFC;
-  --color-bg-surface: #FFFFFF;
-  --color-bg-surface-elevated: #F1F5F9;
-  --color-bg-card: #FFFFFF;
-  --color-border-subtle: #E2E8F0;
-  --color-border-accent: rgba(79, 70, 229, 0.3);
-  
-  --color-text-title: #0F172A;
-  --color-text-body: #334155;
-  --color-text-muted: #64748B;
-  
-  --color-accent-primary: #4F46E5;
-  --color-accent-secondary: #0EA5E9;
-}
-
 @layer base {
   body {
-    background-color: var(--color-bg-base);
-    color: var(--color-text-body);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.25s ease, color 0.25s ease;
+    @apply bg-[#F8FAFC] text-slate-900 font-sans antialiased;
   }
 }
 
-/* Custom Scrollbars */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -109,47 +19,10 @@ html.theme-clean-light {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1E293B;
+  background: #cbd5e1;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
-}
-
-/* Glassmorphism & Cyber Glow utilities */
-.cyber-card {
-  background-color: var(--color-bg-card);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 1rem;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.cyber-card:hover {
-  border-color: var(--color-border-accent);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-}
-
-.glow-cyan {
-  box-shadow: 0 0 20px -5px rgba(0, 242, 254, 0.35);
-}
-
-.glow-purple {
-  box-shadow: 0 0 20px -5px rgba(168, 85, 247, 0.35);
-}
-
-.glow-emerald {
-  box-shadow: 0 0 20px -5px rgba(16, 185, 129, 0.35);
-}
-
-.text-gradient-cyan {
-  background: linear-gradient(135deg, #00F2FE 0%, #4FACFE 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-purple {
-  background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: #94a3b8;
 }

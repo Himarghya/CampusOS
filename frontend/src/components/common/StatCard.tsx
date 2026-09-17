@@ -7,52 +7,45 @@ interface StatCardProps {
   value: string | number;
   subtitle?: string;
   icon: LucideIcon;
-  variant?: 'purple' | 'green' | 'amber' | 'rose' | 'blue' | 'cyan';
+  variant?: 'purple' | 'green' | 'amber' | 'rose' | 'blue';
   className?: string;
 }
 
 const variantStyles = {
-  cyan: {
-    bg: 'bg-[#111827]',
-    border: 'border-cyan-500/30 hover:border-cyan-400/60',
-    text: 'text-cyan-400',
-    iconBg: 'bg-cyan-950/60 border border-cyan-500/30 text-cyan-300',
-    glow: 'group-hover:shadow-[0_0_20px_rgba(0,242,254,0.15)]',
-  },
   purple: {
-    bg: 'bg-[#111827]',
-    border: 'border-purple-500/30 hover:border-purple-400/60',
-    text: 'text-purple-400',
-    iconBg: 'bg-purple-950/60 border border-purple-500/30 text-purple-300',
-    glow: 'group-hover:shadow-[0_0_20px_rgba(168,85,247,0.15)]',
+    bg: 'bg-[#F5F3FF]',
+    border: 'border-[#DDD6FE]',
+    text: 'text-[#6D28D9]',
+    iconBg: 'bg-[#EDE9FE]',
+    iconColor: 'text-[#7C3AED]',
   },
   green: {
-    bg: 'bg-[#111827]',
-    border: 'border-emerald-500/30 hover:border-emerald-400/60',
-    text: 'text-emerald-400',
-    iconBg: 'bg-emerald-950/60 border border-emerald-500/30 text-emerald-300',
-    glow: 'group-hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]',
+    bg: 'bg-[#ECFDF5]',
+    border: 'border-[#A7F3D0]',
+    text: 'text-[#047857]',
+    iconBg: 'bg-[#D1FAE5]',
+    iconColor: 'text-[#059669]',
   },
   amber: {
-    bg: 'bg-[#111827]',
-    border: 'border-amber-500/30 hover:border-amber-400/60',
-    text: 'text-amber-400',
-    iconBg: 'bg-amber-950/60 border border-amber-500/30 text-amber-300',
-    glow: 'group-hover:shadow-[0_0_20px_rgba(245,158,11,0.15)]',
+    bg: 'bg-[#FFFBEB]',
+    border: 'border-[#FDE68A]',
+    text: 'text-[#B45309]',
+    iconBg: 'bg-[#FEF3C7]',
+    iconColor: 'text-[#D97706]',
   },
   rose: {
-    bg: 'bg-[#111827]',
-    border: 'border-rose-500/30 hover:border-rose-400/60',
-    text: 'text-rose-400',
-    iconBg: 'bg-rose-950/60 border border-rose-500/30 text-rose-300',
-    glow: 'group-hover:shadow-[0_0_20px_rgba(244,63,94,0.15)]',
+    bg: 'bg-[#FFF1F2]',
+    border: 'border-[#FECDD3]',
+    text: 'text-[#BE123C]',
+    iconBg: 'bg-[#FFE4E6]',
+    iconColor: 'text-[#E11D48]',
   },
   blue: {
-    bg: 'bg-[#111827]',
-    border: 'border-sky-500/30 hover:border-sky-400/60',
-    text: 'text-sky-400',
-    iconBg: 'bg-sky-950/60 border border-sky-500/30 text-sky-300',
-    glow: 'group-hover:shadow-[0_0_20px_rgba(56,189,248,0.15)]',
+    bg: 'bg-[#EFF6FF]',
+    border: 'border-[#BFDBFE]',
+    text: 'text-[#1D4ED8]',
+    iconBg: 'bg-[#DBEAFE]',
+    iconColor: 'text-[#2563EB]',
   },
 };
 
@@ -61,7 +54,7 @@ export const StatCard: React.FC<StatCardProps> = ({
   value,
   subtitle,
   icon: Icon,
-  variant = 'cyan',
+  variant = 'purple',
   className,
 }) => {
   const styles = variantStyles[variant];
@@ -69,33 +62,33 @@ export const StatCard: React.FC<StatCardProps> = ({
   return (
     <div
       className={clsx(
-        'group rounded-2xl border p-5 transition-all duration-200 flex items-start justify-between relative overflow-hidden shadow-lg',
+        'rounded-2xl border p-5 transition-all duration-200 hover:shadow-card-hover flex items-start justify-between relative overflow-hidden',
         styles.bg,
         styles.border,
-        styles.glow,
         className
       )}
     >
       <div className="flex flex-col z-10">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+        <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
           {title}
         </span>
-        <div className="text-2xl lg:text-3xl font-black text-white tracking-tight">
+        <div className="text-3xl font-extrabold text-slate-900 tracking-tight">
           {value}
         </div>
         {subtitle && (
-          <span className="text-xs text-slate-400 mt-1 font-medium">
+          <span className="text-xs text-slate-500 mt-1 font-medium">
             {subtitle}
           </span>
         )}
       </div>
       <div
         className={clsx(
-          'p-3 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 shadow-xs',
-          styles.iconBg
+          'p-3 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110',
+          styles.iconBg,
+          styles.iconColor
         )}
       >
-        <Icon className="w-5 h-5" />
+        <Icon className="w-6 h-6" />
       </div>
     </div>
   );
