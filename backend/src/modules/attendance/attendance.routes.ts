@@ -11,5 +11,6 @@ router.get('/sessions/:id', requireAuth, AttendanceController.getSessionById);
 router.post('/records/bulk', requireAuth, authorize('FACULTY', 'DEPT_HEAD', 'ADMIN', 'SUPER_ADMIN'), AttendanceController.markBulkAttendance);
 router.get('/me', requireAuth, AttendanceController.getMyAttendance);
 router.get('/student/:studentId', requireAuth, AttendanceController.getStudentAttendanceById);
+router.get('/course/:courseId/spreadsheet', requireAuth, AttendanceController.getCourseSpreadsheet);
 
 export default router;

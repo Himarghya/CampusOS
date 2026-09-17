@@ -68,4 +68,13 @@ export class AttendanceController {
       next(error);
     }
   }
+
+  static async getCourseSpreadsheet(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const data = await AttendanceService.getCourseAttendanceSpreadsheet(req.params.courseId);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
