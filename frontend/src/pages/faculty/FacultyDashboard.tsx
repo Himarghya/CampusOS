@@ -91,20 +91,20 @@ export const FacultyDashboard: React.FC = () => {
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Faculty Hero Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#111827] border border-slate-800 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 flex items-center justify-center font-black text-xl shadow-inner">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-purple-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-cyan-500/20">
             {user?.firstName?.[0] || 'V'}{user?.lastName?.[0] || 'S'}
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-black tracking-tight">Prof. {user?.firstName} {user?.lastName}</h1>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              <h1 className="text-xl font-black tracking-tight text-white">Prof. {user?.firstName} {user?.lastName}</h1>
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-cyan-950/60 text-cyan-300 border border-cyan-500/40">
                 Associate Professor
               </span>
             </div>
-            <p className="text-xs text-slate-300 mt-0.5">
-              Department of Computer Science & Engineering • Cabin: <strong>CS-302 (Academic Block B)</strong> • Office Hours: <strong>3:00 - 5:00 PM</strong>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Department of Computer Science & Engineering • Cabin: <strong className="text-slate-200">CS-302</strong> • Office Hours: <strong className="text-slate-200">3:00 - 5:00 PM</strong>
             </p>
           </div>
         </div>
@@ -112,24 +112,24 @@ export const FacultyDashboard: React.FC = () => {
         <div className="flex flex-wrap items-center gap-2">
           <Link
             to="/faculty/attendance"
-            className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-900/50"
+            className="px-3.5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-black transition-all flex items-center gap-1.5 shadow-lg shadow-cyan-500/25 border border-cyan-400"
           >
             <CheckSquare className="w-4 h-4" />
             <span>Mark Attendance</span>
           </Link>
           <Link
-            to="/faculty/assignments"
-            className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition flex items-center gap-1.5 backdrop-blur-sm"
-          >
-            <Plus className="w-4 h-4" />
-            <span>New Assignment</span>
-          </Link>
-          <Link
             to="/faculty/marks"
-            className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition flex items-center gap-1.5 backdrop-blur-sm"
+            className="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-lg shadow-purple-600/30 border border-purple-400/40"
           >
             <Award className="w-4 h-4" />
-            <span>Marks Entry</span>
+            <span>Marks Entry (CIA)</span>
+          </Link>
+          <Link
+            to="/faculty/assignments"
+            className="px-3.5 py-2 rounded-xl bg-[#162032] hover:bg-[#1E2C44] text-slate-200 text-xs font-bold transition flex items-center gap-1.5 border border-slate-700/80"
+          >
+            <Plus className="w-4 h-4 text-cyan-400" />
+            <span>New Assignment</span>
           </Link>
         </div>
       </div>
@@ -141,14 +141,14 @@ export const FacultyDashboard: React.FC = () => {
           value={kpis.assignedCoursesCount}
           subtitle="Active theory & lab courses"
           icon={BookOpen}
-          variant="purple"
+          variant="cyan"
         />
         <StatCard
           title="Students Taught"
           value={kpis.totalStudentsTaught}
           subtitle="Enrolled students across sections"
           icon={Users}
-          variant="blue"
+          variant="purple"
         />
         <StatCard
           title="Pending Evaluations"
@@ -167,17 +167,17 @@ export const FacultyDashboard: React.FC = () => {
       </div>
 
       {/* Today's Schedule & Quick Launch */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card space-y-4">
+      <div className="bg-[#111827] rounded-3xl p-6 border border-slate-800 shadow-xl space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-indigo-600" />
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <Clock className="w-4 h-4 text-cyan-400" />
               <span>Today's Academic Teaching Schedule</span>
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">Live timetable slots and classroom allocations for today</p>
+            <p className="text-xs text-slate-400 mt-0.5">Live timetable slots and classroom allocations for today</p>
           </div>
-          <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 flex items-center gap-1">
-            <CheckCircle2 className="w-3.5 h-3.5" /> Spring 2026 Term Active
+          <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-950/60 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
+            <CheckCircle2 className="w-3.5 h-3.5" /> Spring 2026 Active
           </span>
         </div>
 
@@ -187,33 +187,33 @@ export const FacultyDashboard: React.FC = () => {
               key={idx}
               className={`p-4 rounded-2xl border transition-all flex flex-col justify-between ${
                 cls.status === 'IN_SESSION'
-                  ? 'bg-indigo-50/60 border-indigo-200 shadow-sm'
-                  : 'bg-slate-50/60 border-slate-200 hover:border-slate-300'
+                  ? 'bg-cyan-950/30 border-cyan-500/50 shadow-md shadow-cyan-950'
+                  : 'bg-[#162032]/60 border-slate-800 hover:border-slate-700'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-black text-slate-800">{cls.time}</span>
-                  <Badge variant={cls.status === 'IN_SESSION' ? 'primary' : 'neutral'}>
+                  <span className="text-xs font-black text-white">{cls.time}</span>
+                  <Badge variant={cls.status === 'IN_SESSION' ? 'cyan' : 'neutral'}>
                     {cls.type}
                   </Badge>
                 </div>
-                <h4 className="text-xs font-bold text-slate-900">{cls.name}</h4>
-                <div className="flex items-center gap-2 text-[11px] text-slate-500 mt-1">
-                  <span className="font-semibold text-indigo-600">{cls.code}</span>
+                <h4 className="text-xs font-bold text-slate-100">{cls.name}</h4>
+                <div className="flex items-center gap-2 text-[11px] text-slate-400 mt-1">
+                  <span className="font-semibold text-cyan-400">{cls.code}</span>
                   <span>•</span>
                   <span className="flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-slate-400" /> {cls.room}
+                    <MapPin className="w-3 h-3 text-slate-500" /> {cls.room}
                   </span>
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-slate-100/80 flex items-center justify-between">
+              <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
                 <Link
                   to="/faculty/attendance"
-                  className="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1"
+                  className="text-xs font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
                 >
-                  <span>{cls.status === 'IN_SESSION' ? 'Take Attendance' : 'View Roster'}</span>
+                  <span>{cls.status === 'IN_SESSION' ? 'Take Attendance' : 'View Ledger'}</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
@@ -222,70 +222,66 @@ export const FacultyDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Middle Row: Assigned Courses (7 cols) & Pending Evaluations (5 cols) */}
+      {/* Middle Row: Assigned Courses & Pending Evaluations */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Assigned Courses with Progress */}
-        <div className="lg:col-span-7 bg-white rounded-3xl p-6 border border-slate-100 shadow-card flex flex-col justify-between">
+        <div className="lg:col-span-7 bg-[#111827] rounded-3xl p-6 border border-slate-800 shadow-xl flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-base font-bold text-slate-900">Assigned Courses & Syllabus Progress</h3>
-                <p className="text-xs text-slate-500 mt-0.5">Teaching metrics, enrolled students, and completion status</p>
+                <h3 className="text-base font-bold text-white">Assigned Courses & Syllabus Progress</h3>
+                <p className="text-xs text-slate-400 mt-0.5">Teaching metrics, enrolled students, and completion status</p>
               </div>
-              <Link to="/faculty/courses" className="text-xs font-bold text-indigo-600 hover:underline">
+              <Link to="/faculty/courses" className="text-xs font-bold text-cyan-400 hover:underline">
                 View All Courses
               </Link>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3.5">
               {assignedCourses.map((c: any) => (
                 <div
                   key={c.id}
-                  className="p-4 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition-colors space-y-3"
+                  className="p-4 rounded-2xl border border-slate-800 bg-[#162032]/60 hover:border-cyan-500/40 transition-all space-y-3"
                 >
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">
+                        <span className="text-xs font-bold text-cyan-300 bg-cyan-950/80 px-2 py-0.5 rounded-md border border-cyan-500/30">
                           {c.code}
                         </span>
-                        <h4 className="text-sm font-bold text-slate-900">{c.name}</h4>
+                        <h4 className="text-sm font-bold text-white">{c.name}</h4>
                       </div>
-                      <div className="text-[11px] text-slate-500 mt-1">
-                        Section {c.section} • {c.credits} Credits • <strong>{c.studentCount} Students Enrolled</strong>
+                      <div className="text-[11px] text-slate-400 mt-1">
+                        Section {c.section} • {c.credits} Credits • <strong className="text-slate-200">{c.studentCount} Students Enrolled</strong>
                       </div>
                     </div>
 
                     <div className="text-right">
-                      <span className="text-xs font-bold text-emerald-600">{c.attendanceAvg || 89}% Attendance</span>
+                      <span className="text-xs font-bold text-emerald-400">{c.attendanceAvg || 89}% Attendance</span>
                     </div>
                   </div>
 
                   {/* Progress Bar */}
                   <div className="space-y-1">
                     <div className="flex items-center justify-between text-[11px]">
-                      <span className="text-slate-500 font-medium">Syllabus Coverage:</span>
-                      <span className="font-bold text-slate-800">{c.syllabusProgress || 72}%</span>
+                      <span className="text-slate-400 font-medium">Syllabus Coverage:</span>
+                      <span className="font-bold text-slate-200">{c.syllabusProgress || 72}%</span>
                     </div>
-                    <div className="w-full bg-slate-200/80 rounded-full h-2 overflow-hidden">
+                    <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
                       <div
-                        className="h-full bg-indigo-600 rounded-full transition-all duration-500"
+                        className="h-full bg-gradient-to-r from-cyan-400 to-teal-400 rounded-full transition-all duration-500"
                         style={{ width: `${c.syllabusProgress || 72}%` }}
                       />
                     </div>
                   </div>
 
                   <div className="pt-2 flex items-center justify-end gap-3 text-xs font-bold">
-                    <Link to="/faculty/attendance" className="text-slate-600 hover:text-indigo-600">
-                      Attendance
+                    <Link to="/faculty/attendance" className="text-slate-400 hover:text-cyan-400">
+                      Attendance Matrix
                     </Link>
-                    <span className="text-slate-300">•</span>
-                    <Link to="/faculty/assignments" className="text-slate-600 hover:text-indigo-600">
-                      Assignments
-                    </Link>
-                    <span className="text-slate-300">•</span>
-                    <Link to="/faculty/marks" className="text-indigo-600 hover:text-indigo-800">
-                      Grade Marks
+                    <span className="text-slate-700">•</span>
+                    <Link to="/faculty/marks" className="text-cyan-400 hover:text-cyan-300">
+                      CIA Marks Entry
                     </Link>
                   </div>
                 </div>
@@ -295,32 +291,32 @@ export const FacultyDashboard: React.FC = () => {
         </div>
 
         {/* Pending Submissions Queue */}
-        <div className="lg:col-span-5 bg-white rounded-3xl p-6 border border-slate-100 shadow-card flex flex-col justify-between">
+        <div className="lg:col-span-5 bg-[#111827] rounded-3xl p-6 border border-slate-800 shadow-xl flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-base font-bold text-slate-900">Pending Evaluations Queue</h3>
-                <p className="text-xs text-slate-500 mt-0.5">Submissions awaiting review and grading</p>
+                <h3 className="text-base font-bold text-white">Pending Evaluations Queue</h3>
+                <p className="text-xs text-slate-400 mt-0.5">Submissions awaiting review and grading</p>
               </div>
-              <Link to="/faculty/assignments" className="text-xs font-bold text-indigo-600 hover:underline">
+              <Link to="/faculty/assignments" className="text-xs font-bold text-cyan-400 hover:underline">
                 View All
               </Link>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {pendingEvaluations.map((p: any) => (
                 <div
                   key={p.id}
-                  className="p-3.5 rounded-2xl border border-slate-100 bg-slate-50/60 flex items-center justify-between text-xs hover:bg-indigo-50/30 transition-colors"
+                  className="p-3.5 rounded-2xl border border-slate-800 bg-[#162032]/60 flex items-center justify-between text-xs hover:border-slate-700 transition-colors"
                 >
                   <div className="min-w-0 pr-2">
-                    <div className="font-bold text-slate-900 truncate">{p.studentName}</div>
-                    <div className="text-[11px] text-slate-500 truncate">{p.assignmentTitle}</div>
+                    <div className="font-bold text-white truncate">{p.studentName}</div>
+                    <div className="text-[11px] text-slate-300 truncate">{p.assignmentTitle}</div>
                     <div className="text-[10px] text-slate-400 mt-0.5">Submitted: {p.submittedAt}</div>
                   </div>
                   <Link
                     to="/faculty/assignments"
-                    className="px-3 py-1.5 rounded-xl bg-indigo-600 text-white font-bold text-xs hover:bg-indigo-500 shrink-0 shadow-xs"
+                    className="px-3 py-1.5 rounded-xl bg-cyan-500 text-slate-950 font-black text-xs hover:bg-cyan-400 shrink-0 shadow-md shadow-cyan-500/20"
                   >
                     Grade
                   </Link>
@@ -330,17 +326,17 @@ export const FacultyDashboard: React.FC = () => {
           </div>
 
           {/* Attendance Shortage Alert */}
-          <div className="mt-4 p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs">
+          <div className="mt-4 p-4 rounded-2xl bg-amber-950/40 border border-amber-500/40 text-xs">
             <div className="flex items-center justify-between">
-              <span className="font-bold text-amber-900 flex items-center gap-1.5">
-                <AlertTriangle className="w-4 h-4 text-amber-600" />
+              <span className="font-bold text-amber-300 flex items-center gap-1.5">
+                <AlertTriangle className="w-4 h-4 text-amber-400" />
                 <span>Attendance Defaulters Alert (&lt;75%)</span>
               </span>
-              <span className="text-[10px] font-extrabold text-amber-800 bg-amber-200/60 px-2 py-0.5 rounded">
+              <span className="text-[10px] font-extrabold text-amber-300 bg-amber-900/60 px-2 py-0.5 rounded border border-amber-500/40">
                 {attendanceDefaulters.length} Students
               </span>
             </div>
-            <p className="text-amber-800 mt-1">
+            <p className="text-amber-200/80 mt-1">
               2 students currently fall below the required academic attendance minimum in your classes.
             </p>
             <div className="mt-3 flex items-center justify-between">

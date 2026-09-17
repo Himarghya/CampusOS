@@ -65,20 +65,20 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Executive Command Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#111827] border border-slate-800 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 flex items-center justify-center font-black text-xl shadow-inner">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-purple-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-cyan-500/20">
             <Building className="w-7 h-7" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-black tracking-tight">Institutional Governance & Command Hub</h1>
-              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <h1 className="text-xl font-black tracking-tight text-white">Institutional Governance & Command Hub</h1>
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-cyan-950/60 text-cyan-300 border border-cyan-500/40">
                 Spring 2026 Active
               </span>
             </div>
-            <p className="text-xs text-slate-300 mt-0.5">
-              CampusOS Suite Enterprise • 8 Academic Divisions • 16 Integrated Modules Operational
+            <p className="text-xs text-slate-400 mt-0.5">
+              CampusOS Enterprise Suite • 8 Academic Divisions • 16 Integrated Modules
             </p>
           </div>
         </div>
@@ -86,23 +86,23 @@ export const AdminDashboard: React.FC = () => {
         <div className="flex flex-wrap items-center gap-2">
           <Link
             to="/admin/students"
-            className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-900/50"
+            className="px-3.5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-black transition-all flex items-center gap-1.5 shadow-lg shadow-cyan-500/25 border border-cyan-400"
           >
             <Users className="w-4 h-4" />
             <span>Manage Students</span>
           </Link>
           <Link
             to="/admin/exams"
-            className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition flex items-center gap-1.5 backdrop-blur-sm"
+            className="px-3.5 py-2 rounded-xl bg-[#162032] hover:bg-[#1E2C44] text-slate-200 text-xs font-bold transition flex items-center gap-1.5 border border-slate-700/80"
           >
-            <Award className="w-4 h-4" />
+            <Award className="w-4 h-4 text-cyan-400" />
             <span>Exam Governance</span>
           </Link>
           <Link
             to="/admin/audit"
-            className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition flex items-center gap-1.5 backdrop-blur-sm"
+            className="px-3.5 py-2 rounded-xl bg-[#162032] hover:bg-[#1E2C44] text-slate-200 text-xs font-bold transition flex items-center gap-1.5 border border-slate-700/80"
           >
-            <ShieldCheck className="w-4 h-4" />
+            <ShieldCheck className="w-4 h-4 text-purple-400" />
             <span>Audit Trail</span>
           </Link>
         </div>
@@ -110,55 +110,55 @@ export const AdminDashboard: React.FC = () => {
 
       {/* 6 High-Density Top Metric Stat Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
-        <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
+        <div className="bg-[#111827] rounded-2xl p-4 border border-slate-800 shadow-md group hover:border-cyan-500/40 transition">
           <span className="text-[10px] font-bold text-slate-400 uppercase">Total Students</span>
-          <div className="text-xl font-black text-slate-900 mt-0.5">{kpis.totalStudents}</div>
-          <span className="text-[10px] text-emerald-600 font-bold flex items-center gap-0.5 mt-1">
+          <div className="text-xl font-black text-cyan-400 mt-0.5">{kpis.totalStudents}</div>
+          <span className="text-[10px] text-emerald-400 font-bold flex items-center gap-0.5 mt-1">
             <TrendingUp className="w-3 h-3" /> +12% YoY
           </span>
         </div>
 
-        <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
+        <div className="bg-[#111827] rounded-2xl p-4 border border-slate-800 shadow-md group hover:border-cyan-500/40 transition">
           <span className="text-[10px] font-bold text-slate-400 uppercase">Faculty Roster</span>
-          <div className="text-xl font-black text-slate-900 mt-0.5">{kpis.totalFaculty}</div>
+          <div className="text-xl font-black text-white mt-0.5">{kpis.totalFaculty}</div>
           <span className="text-[10px] text-slate-400 font-semibold block mt-1">1:12 Ratio</span>
         </div>
 
-        <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
+        <div className="bg-[#111827] rounded-2xl p-4 border border-slate-800 shadow-md group hover:border-purple-500/40 transition">
           <span className="text-[10px] font-bold text-slate-400 uppercase">Departments</span>
-          <div className="text-xl font-black text-slate-900 mt-0.5">{kpis.totalDepartments}</div>
-          <span className="text-[10px] text-indigo-600 font-semibold block mt-1">Active Schools</span>
+          <div className="text-xl font-black text-purple-400 mt-0.5">{kpis.totalDepartments}</div>
+          <span className="text-[10px] text-cyan-400 font-semibold block mt-1">Active Schools</span>
         </div>
 
-        <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
+        <div className="bg-[#111827] rounded-2xl p-4 border border-slate-800 shadow-md group hover:border-cyan-500/40 transition">
           <span className="text-[10px] font-bold text-slate-400 uppercase">Course Catalog</span>
-          <div className="text-xl font-black text-slate-900 mt-0.5">{kpis.totalCourses}</div>
+          <div className="text-xl font-black text-white mt-0.5">{kpis.totalCourses}</div>
           <span className="text-[10px] text-slate-400 font-semibold block mt-1">Theory & Labs</span>
         </div>
 
-        <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
+        <div className="bg-[#111827] rounded-2xl p-4 border border-slate-800 shadow-md group hover:border-purple-500/40 transition">
           <span className="text-[10px] font-bold text-slate-400 uppercase">Placement Drives</span>
-          <div className="text-xl font-black text-slate-900 mt-0.5">{kpis.activeDrives}</div>
-          <span className="text-[10px] text-purple-600 font-semibold block mt-1">Recruiters Live</span>
+          <div className="text-xl font-black text-purple-400 mt-0.5">{kpis.activeDrives}</div>
+          <span className="text-[10px] text-emerald-400 font-semibold block mt-1">Recruiters Live</span>
         </div>
 
-        <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
+        <div className="bg-[#111827] rounded-2xl p-4 border border-slate-800 shadow-md group hover:border-emerald-500/40 transition">
           <span className="text-[10px] font-bold text-slate-400 uppercase">Audit Status</span>
-          <div className="text-xl font-black text-emerald-600 mt-0.5">100%</div>
-          <span className="text-[10px] text-emerald-600 font-bold block mt-1">Compliant</span>
+          <div className="text-xl font-black text-emerald-400 mt-0.5">100%</div>
+          <span className="text-[10px] text-emerald-400 font-bold block mt-1">Compliant</span>
         </div>
       </div>
 
-      {/* Main Governance Grid: Department Workload (7 cols) & Audit Activity (5 cols) */}
+      {/* Main Governance Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Department Distribution Table */}
-        <div className="lg:col-span-7 bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
+        <div className="lg:col-span-7 bg-[#111827] rounded-3xl p-6 border border-slate-800 shadow-xl">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-base font-bold text-slate-900">Academic Department Roster & Enrollment</h3>
-              <p className="text-xs text-slate-500 mt-0.5">Headcounts, student loads, and active courses across faculties</p>
+              <h3 className="text-base font-bold text-white">Academic Department Roster & Enrollment</h3>
+              <p className="text-xs text-slate-400 mt-0.5">Headcounts, student loads, and active courses</p>
             </div>
-            <Link to="/admin/departments" className="text-xs font-bold text-indigo-600 hover:underline">
+            <Link to="/admin/departments" className="text-xs font-bold text-cyan-400 hover:underline">
               Manage All
             </Link>
           </div>
@@ -167,28 +167,28 @@ export const AdminDashboard: React.FC = () => {
             {departmentDistribution.map((dept: any) => (
               <div
                 key={dept.id}
-                className="p-3.5 rounded-2xl border border-slate-100 bg-slate-50/50 flex items-center justify-between hover:bg-indigo-50/20 transition-colors"
+                className="p-3.5 rounded-2xl border border-slate-800 bg-[#162032]/60 flex items-center justify-between hover:border-cyan-500/40 transition-all"
               >
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 font-bold text-xs">
+                    <span className="px-2 py-0.5 rounded-md bg-cyan-950/80 text-cyan-300 font-bold text-xs border border-cyan-500/30">
                       {dept.code}
                     </span>
-                    <span className="font-bold text-xs text-slate-900">{dept.name}</span>
+                    <span className="font-bold text-xs text-white">{dept.name}</span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-6 text-xs text-right">
                   <div>
-                    <span className="font-bold text-slate-900">{dept.studentsCount}</span>
+                    <span className="font-bold text-cyan-400">{dept.studentsCount}</span>
                     <span className="text-slate-400 block text-[10px]">Students</span>
                   </div>
                   <div>
-                    <span className="font-bold text-slate-900">{dept.facultyCount}</span>
+                    <span className="font-bold text-purple-400">{dept.facultyCount}</span>
                     <span className="text-slate-400 block text-[10px]">Faculty</span>
                   </div>
                   <div>
-                    <span className="font-bold text-slate-900">{dept.coursesCount}</span>
+                    <span className="font-bold text-slate-200">{dept.coursesCount}</span>
                     <span className="text-slate-400 block text-[10px]">Courses</span>
                   </div>
                 </div>
@@ -198,31 +198,31 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Live Audit Activity Trail */}
-        <div className="lg:col-span-5 bg-white rounded-3xl p-6 border border-slate-100 shadow-card flex flex-col justify-between">
+        <div className="lg:col-span-5 bg-[#111827] rounded-3xl p-6 border border-slate-800 shadow-xl flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-base font-bold text-slate-900">Real-Time Audit Trail</h3>
-                <p className="text-xs text-slate-500 mt-0.5">Security events and institutional mutations</p>
+                <h3 className="text-base font-bold text-white">Real-Time Audit Trail</h3>
+                <p className="text-xs text-slate-400 mt-0.5">Security events and mutations</p>
               </div>
-              <Link to="/admin/audit" className="text-xs font-bold text-indigo-600 hover:underline">
+              <Link to="/admin/audit" className="text-xs font-bold text-cyan-400 hover:underline">
                 Full Log
               </Link>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {recentActivity.map((a: any) => (
                 <div
                   key={a.id}
-                  className="p-3 rounded-2xl border border-slate-100 bg-slate-50/60 flex items-center justify-between text-xs hover:bg-slate-50 transition-colors"
+                  className="p-3 rounded-2xl border border-slate-800 bg-[#162032]/60 flex items-center justify-between text-xs hover:border-slate-700 transition-colors"
                 >
                   <div className="min-w-0 pr-2">
                     <div className="flex items-center gap-1.5">
-                      <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-indigo-50 text-indigo-700">
+                      <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-cyan-950 text-cyan-300 border border-cyan-500/30">
                         {a.action}
                       </span>
                     </div>
-                    <div className="text-[11px] text-slate-700 font-semibold mt-1">{a.actor}</div>
+                    <div className="text-[11px] text-slate-200 font-semibold mt-1">{a.actor}</div>
                     <div className="text-[10px] text-slate-400">{a.entity}</div>
                   </div>
                   <div className="text-[10px] text-slate-400 font-medium shrink-0">{a.time}</div>
@@ -232,15 +232,15 @@ export const AdminDashboard: React.FC = () => {
           </div>
 
           {/* System Health Strip */}
-          <div className="mt-4 p-3 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-between text-xs">
+          <div className="mt-4 p-3 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-between text-xs">
             <div className="flex items-center gap-2">
-              <Server className="w-4 h-4 text-emerald-600 shrink-0" />
+              <Server className="w-4 h-4 text-emerald-400 shrink-0" />
               <div>
-                <div className="font-bold text-emerald-950 text-[11px]">System Status: All Systems Operational</div>
-                <div className="text-[10px] text-emerald-700">Database synchronized • RBAC enforced</div>
+                <div className="font-bold text-emerald-300 text-[11px]">System Status: All Systems Operational</div>
+                <div className="text-[10px] text-emerald-400/80">Database synchronized • RBAC enforced</div>
               </div>
             </div>
-            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           </div>
         </div>
       </div>
