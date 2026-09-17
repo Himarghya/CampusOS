@@ -751,7 +751,7 @@ async function main() {
     },
   });
 
-  // 14. Campus Events
+  // 14. Campus Events (Multiple diverse categories)
   const eventHackathon = await prisma.event.create({
     data: {
       institutionId: institution.id,
@@ -763,6 +763,76 @@ async function main() {
       endDate: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000),
       capacity: 150,
       registeredCount: 42,
+    },
+  });
+
+  await prisma.event.create({
+    data: {
+      institutionId: institution.id,
+      title: 'AI & Neural Systems Masterclass',
+      description: 'Hands-on deep learning workshop with PyTorch, Transformer models, and GPU acceleration.',
+      category: 'WORKSHOP',
+      venue: 'Computer Center Lab 3',
+      startDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000),
+      endDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+      capacity: 100,
+      registeredCount: 68,
+    },
+  });
+
+  await prisma.event.create({
+    data: {
+      institutionId: institution.id,
+      title: 'Cloud Native Microservices Summit',
+      description: 'Keynote series and architecture breakdown by industry engineering leaders.',
+      category: 'SEMINAR',
+      venue: 'Seminar Hall 2',
+      startDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+      endDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
+      capacity: 200,
+      registeredCount: 140,
+    },
+  });
+
+  await prisma.event.create({
+    data: {
+      institutionId: institution.id,
+      title: 'Annual Tech & Cultural Fiesta \'Aura 2026\'',
+      description: 'Flagship annual inter-college technical competition, code sprints, robotics, and music night.',
+      category: 'CULTURAL',
+      venue: 'Open Air Amphitheatre',
+      startDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
+      endDate: new Date(Date.now() + 23 * 24 * 60 * 60 * 1000),
+      capacity: 500,
+      registeredCount: 320,
+    },
+  });
+
+  await prisma.event.create({
+    data: {
+      institutionId: institution.id,
+      title: 'Web3 & Decentralized Security Bootcamp',
+      description: 'Smart contract audit practices, zero-knowledge proofs, and blockchain engineering.',
+      category: 'WORKSHOP',
+      venue: 'Innovation Hub Room 102',
+      startDate: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000),
+      endDate: new Date(Date.now() + 9 * 24 * 60 * 60 * 1000),
+      capacity: 80,
+      registeredCount: 45,
+    },
+  });
+
+  await prisma.event.create({
+    data: {
+      institutionId: institution.id,
+      title: 'Inter-College Esports & Sports League',
+      description: 'Inter-department sports tournament featuring football, basketball, and gaming leagues.',
+      category: 'SPORTS',
+      venue: 'Campus Sports Complex',
+      startDate: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000),
+      endDate: new Date(Date.now() + 27 * 24 * 60 * 60 * 1000),
+      capacity: 300,
+      registeredCount: 210,
     },
   });
 
