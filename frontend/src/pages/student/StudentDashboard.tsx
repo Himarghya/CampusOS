@@ -1,267 +1,243 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import {
+  GraduationCap,
+  Trophy,
+  RefreshCw,
   BookOpen,
-  FileCheck,
-  CalendarDays,
-  Star,
-  Megaphone,
-  CheckCircle2,
   Calendar,
-  ShieldCheck,
-  ArrowRight,
-  Code,
-  Database,
-  Globe,
-  Cpu,
   Layers,
+  ArrowRight,
+  ClipboardList,
+  CheckCircle2,
+  Clock,
+  AlertCircle,
+  FileText,
+  ChevronRight,
+  ShieldCheck,
 } from 'lucide-react';
-import { StatCard } from '../../components/common/StatCard';
 import { LoadingSkeleton } from '../../components/common/LoadingSkeleton';
 import { Link } from 'react-router-dom';
-import clsx from 'clsx';
+import { useAuth } from '../../context/AuthContext';
 
 export const StudentDashboard: React.FC = () => {
   const { user } = useAuth();
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['studentDashboard', user?.id],
+  const { data: standing, isLoading } = useQuery({
+    queryKey: ['studentCreditStanding'],
     queryFn: async () => {
-      const res = await api.get('/dashboard/student');
+      const res = await api.get('/academic/credit-standing');
       return res.data.data;
     },
   });
 
-  if (isLoading) {
-    return <LoadingSkeleton rows={6} />;
-  }
+  const { data: backlogData } = useQuery({
+    queryKey: ['studentBacklogCourses'],
+    queryFn: async () => {
+      const res = await api.get('/academic/registration/backlog');
+      return res.data.data;
+    },
+  });
 
-  const kpis = data?.kpis || {
-    myCoursesCount: 6,
-    pendingAssignmentsCount: 12,
-    upcomingExamsCount: 3,
-    cgpa: 8.72,
-    overallAttendance: 85,
-  };
+  if (isLoading) return <LoadingSkeleton rows={6} />;
 
-  const myCourses = data?.myCourses || [];
-  const upcomingExams = data?.upcomingExams || [];
-  const announcements = data?.announcements || [];
-  const attendanceOverview = data?.attendanceOverview || {
-    overallPercentage: 85,
-    presentPercentage: 85,
-    absentPercentage: 10,
-    leavePercentage: 5,
-  };
+  const semesterBreakdown = standing?.semesterBreakdown || [
+    { semester: 'Semester 1', creditsEarned: 17, regularCredits: 17, backlog: 0 },
+    { semester: 'Semester 2', creditsEarned: 17, regularCredits: 17, backlog: 0 },
+    { semester: 'Semester 3', creditsEarned: 21, regularCredits: 21, backlog: 0 },
+    { semester: 'Semester 4', creditsEarned: 25, regularCredits: 25, backlog: 0 },
+  ];
 
-  // Helper icons for course subject codes
-  const getCourseIcon = (code: string, index: number) => {
-    if (code.includes('201')) return { icon: Code, bg: 'bg-purple-100 text-purple-600', bar: 'bg-indigo-600' };
-    if (code.includes('202')) return { icon: Database, bg: 'bg-emerald-100 text-emerald-600', bar: 'bg-emerald-500' };
-    if (code.includes('203')) return { icon: Globe, bg: 'bg-amber-100 text-amber-600', bar: 'bg-amber-500' };
-    if (code.includes('204')) return { icon: Cpu, bg: 'bg-blue-100 text-blue-600', bar: 'bg-blue-500' };
-    return { icon: Layers, bg: 'bg-slate-100 text-slate-600', bar: 'bg-indigo-500' };
-  };
+  const totalEarned = standing?.creditsEarned || 80;
+  const regularCredits = standing?.regularCredits || 80;
+  const backlogCredits = standing?.backlogCredits || 0;
+  const swayamCredits = standing?.swayamCredits || 0;
+  const categories = standing?.degreeRequirements?.categories || [
+    { name: 'Program Core (PC)', required: 96, completed: 72 },
+    { name: 'Discipline Electives (DE)', required: 24, completed: 8 },
+    { name: 'Open Electives (OE)', required: 16, completed: 0 },
+    { name: 'Engineering Sciences & Math', required: 16, completed: 16 },
+    { name: 'Swayam / Online MOOCs', required: 8, completed: 0 },
+  ];
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-300">
-      {/* Welcome Greeting Header */}
-      <div>
-        <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-          Welcome back,
-        </div>
-        <h1 className="text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-          {user?.firstName} {user?.lastName} 👋
-        </h1>
-        <p className="text-xs lg:text-sm text-slate-500 mt-1 font-medium">
-          Here's what's happening with your academics.
-        </p>
-      </div>
-
-      {/* 4 Top KPI Stat Cards matching mockup */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <StatCard
-          title="My Courses"
-          value={kpis.myCoursesCount}
-          subtitle="Enrolled courses"
-          icon={BookOpen}
-          variant="purple"
-        />
-        <StatCard
-          title="Assignments"
-          value={kpis.pendingAssignmentsCount}
-          subtitle="Pending submissions"
-          icon={FileCheck}
-          variant="green"
-        />
-        <StatCard
-          title="Exams"
-          value={kpis.upcomingExamsCount}
-          subtitle="Upcoming exams"
-          icon={CalendarDays}
-          variant="amber"
-        />
-        <StatCard
-          title="CGPA"
-          value={Number(kpis.cgpa).toFixed(2)}
-          subtitle="Current CGPA"
-          icon={Star}
-          variant="rose"
-        />
-      </div>
-
-      {/* Middle Row: My Courses (Left) & Upcoming Exams (Right) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* My Courses Card (7 cols) */}
-        <div className="lg:col-span-7 bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-base font-bold text-slate-900">My Courses</h2>
-            <Link
-              to="/courses"
-              className="text-xs font-bold text-indigo-600 hover:text-indigo-700 hover:underline flex items-center gap-1"
-            >
-              <span>View All</span>
-            </Link>
+    <div className="space-y-6 animate-in fade-in duration-300">
+      {/* Student Profile & Standing Banner */}
+      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 flex items-center justify-center font-black text-xl shadow-inner">
+            {user?.firstName?.[0] || 'H'}{user?.lastName?.[0] || 'D'}
           </div>
-
-          <div className="space-y-4">
-            {myCourses.slice(0, 4).map((c: any, index: number) => {
-              const meta = getCourseIcon(c.code, index);
-              const IconComp = meta.icon;
-
-              return (
-                <div
-                  key={c.id}
-                  className="flex items-center justify-between p-3.5 rounded-2xl hover:bg-slate-50/80 transition-colors border border-slate-100/60"
-                >
-                  <div className="flex items-center gap-3.5">
-                    <div className={clsx('w-10 h-10 rounded-2xl flex items-center justify-center shrink-0', meta.bg)}>
-                      <IconComp className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold text-slate-900">{c.name}</div>
-                      <div className="text-xs font-semibold text-slate-400">{c.code}</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 min-w-[120px] justify-end">
-                    <div className="w-24 bg-slate-100 rounded-full h-2 overflow-hidden hidden sm:block">
-                      <div
-                        className={clsx('h-full rounded-full transition-all duration-500', meta.bar)}
-                        style={{ width: `${c.attendancePercentage}%` }}
-                      />
-                    </div>
-                    <span className="text-xs font-bold text-slate-600 w-9 text-right">
-                      {c.attendancePercentage}%
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Upcoming Exams Card (5 cols) */}
-        <div className="lg:col-span-5 bg-white rounded-3xl p-6 border border-slate-100 shadow-card flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-base font-bold text-slate-900">Upcoming Exams</h2>
-              <Link
-                to="/exams"
-                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 hover:underline"
-              >
-                View All
-              </Link>
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl font-black tracking-tight">{user?.firstName} {user?.lastName}</h1>
+              <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                Semester 4 Active
+              </span>
             </div>
-
-            <div className="space-y-3.5">
-              {upcomingExams.length === 0 ? (
-                <div className="text-center py-8 text-xs text-slate-400">
-                  No upcoming exams scheduled
-                </div>
-              ) : (
-                upcomingExams.slice(0, 3).map((e: any) => (
-                  <div
-                    key={e.id}
-                    className="flex items-center justify-between p-3.5 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-indigo-50/30 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
-                        <Calendar className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-slate-800">{e.name}</div>
-                        <div className="text-[11px] text-slate-400 font-medium">
-                          {new Date(e.date).toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric',
-                            year: 'numeric',
-                          })}
-                        </div>
-                      </div>
-                    </div>
-
-                    <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-[11px] font-extrabold tracking-wide uppercase border border-indigo-100">
-                      {e.courseCode || 'CSE'}
-                    </span>
-                  </div>
-                ))
-              )}
-            </div>
+            <p className="text-xs text-slate-300 mt-0.5">
+              Roll: <strong className="text-white">2022BCS0042</strong> • B.Tech Computer Science and Engineering
+            </p>
           </div>
+        </div>
 
+        <div className="flex flex-wrap items-center gap-2">
           <Link
-            to="/exams"
-            className="mt-5 w-full py-2.5 px-4 rounded-2xl border border-indigo-200 text-indigo-600 hover:bg-indigo-50 font-bold text-xs flex items-center justify-center gap-2 transition-colors"
+            to="/academics/pre-registration"
+            className="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-900/50"
           >
-            <CalendarDays className="w-4 h-4" />
-            <span>View Exam Schedule</span>
+            <ClipboardList className="w-4 h-4" />
+            <span>Pre-Registration (Sem 5)</span>
+          </Link>
+          <Link
+            to="/academics/timetable"
+            className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition flex items-center gap-1.5 backdrop-blur-sm"
+          >
+            <Calendar className="w-4 h-4" />
+            <span>Time Table</span>
+          </Link>
+          <Link
+            to="/academics/add-drop"
+            className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition flex items-center gap-1.5 backdrop-blur-sm"
+          >
+            <RefreshCw className="w-4 h-4" />
+            <span>Backlog Add/Drop</span>
           </Link>
         </div>
       </div>
 
-      {/* Bottom Row: Recent Announcements (Left) & Attendance Overview Donut (Right) */}
+      {/* Main Page Title (matches Screenshot 3) */}
+      <div>
+        <h2 className="text-2xl font-black text-slate-900 tracking-tight">Dashboard</h2>
+        <p className="text-xs text-slate-500 mt-0.5">Your credit standing towards the degree</p>
+      </div>
+
+      {/* 4 Metric Top Cards (matches Screenshot 3) */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Credits Earned */}
+        <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">CREDITS EARNED</p>
+            <p className="text-3xl font-black text-slate-900 mt-1">{totalEarned}</p>
+          </div>
+          <div className="w-11 h-11 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <GraduationCap className="w-6 h-6" />
+          </div>
+        </div>
+
+        {/* Regular Credits */}
+        <div className="bg-white rounded-2xl p-5 border-l-4 border-l-emerald-500 border-y border-r border-slate-100 shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">REGULAR CREDITS</p>
+            <p className="text-3xl font-black text-slate-900 mt-1">{regularCredits}</p>
+          </div>
+          <div className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <Trophy className="w-6 h-6" />
+          </div>
+        </div>
+
+        {/* Backlog / Improvement */}
+        <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">BACKLOG / IMPROVEMENT</p>
+            <p className="text-3xl font-black text-slate-900 mt-1">{backlogCredits}</p>
+          </div>
+          <div className="w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <RefreshCw className="w-6 h-6" />
+          </div>
+        </div>
+
+        {/* Swayam */}
+        <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">SWAYAM</p>
+            <p className="text-3xl font-black text-slate-900 mt-1">{swayamCredits}</p>
+          </div>
+          <div className="w-11 h-11 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
+            <BookOpen className="w-6 h-6" />
+          </div>
+        </div>
+      </div>
+
+      {/* Credits Details Table (matches Screenshot 3) */}
+      <div className="bg-white rounded-3xl border border-slate-100 shadow-card overflow-hidden">
+        <div className="p-6 border-b border-slate-100">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-base font-bold text-slate-900">Credits Details</h3>
+              <p className="text-xs text-slate-500 mt-0.5">Semester-wise credit record, as issued by the Academic Office</p>
+            </div>
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
+              Verified Transcript
+            </span>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs">
+            <thead>
+              <tr className="bg-[#BAE6FD]/40 text-slate-700 font-bold border-b border-sky-100">
+                <th className="py-3.5 px-6">Semester</th>
+                <th className="py-3.5 px-6">Credits Earned</th>
+                <th className="py-3.5 px-6">Regular Credits</th>
+                <th className="py-3.5 px-6">Backlog / Improvement</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-800">
+              {semesterBreakdown.map((row: any, index: number) => (
+                <tr key={index} className={index % 2 === 1 ? 'bg-slate-50/50' : 'bg-white'}>
+                  <td className="py-3.5 px-6 font-semibold">{row.semester}</td>
+                  <td className="py-3.5 px-6 font-bold">{row.creditsEarned}</td>
+                  <td className="py-3.5 px-6">{row.regularCredits}</td>
+                  <td className="py-3.5 px-6 text-slate-500">{row.backlog}</td>
+                </tr>
+              ))}
+              {/* Total Row */}
+              <tr className="bg-sky-50/60 font-black text-slate-900 border-t-2 border-sky-200">
+                <td className="py-4 px-6">Total</td>
+                <td className="py-4 px-6">{totalEarned}</td>
+                <td className="py-4 px-6">{regularCredits}</td>
+                <td className="py-4 px-6">{backlogCredits}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Remaining Credits requirement for degree Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Recent Announcements (7 cols) */}
+        {/* Degree Progress (7 cols) */}
         <div className="lg:col-span-7 bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-base font-bold text-slate-900">Recent Announcements</h2>
-            <Link
-              to="/notices"
-              className="text-xs font-bold text-indigo-600 hover:text-indigo-700 hover:underline"
-            >
-              View All
-            </Link>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-base font-bold text-slate-900">Remaining Credits requirement for degree</h3>
+              <p className="text-xs text-slate-500 mt-0.5">Degree completion audit & course distribution requirements</p>
+            </div>
+            <div className="text-right">
+              <span className="text-lg font-black text-indigo-600">{totalEarned} / 160</span>
+              <span className="text-xs text-slate-400 font-bold block">50% Completed</span>
+            </div>
           </div>
 
-          <div className="space-y-4">
-            {announcements.slice(0, 3).map((a: any, idx: number) => {
-              const icons = [
-                { icon: Megaphone, bg: 'bg-purple-100 text-purple-600' },
-                { icon: FileCheck, bg: 'bg-emerald-100 text-emerald-600' },
-                { icon: BookOpen, bg: 'bg-amber-100 text-amber-600' },
-              ];
-              const IconComp = icons[idx % icons.length].icon;
-              const bg = icons[idx % icons.length].bg;
-
+          <div className="space-y-4 mt-6">
+            {categories.map((cat: any, idx: number) => {
+              const pct = Math.min(100, Math.round((cat.completed / cat.required) * 100));
               return (
-                <div
-                  key={a.id}
-                  className="flex items-start gap-3.5 p-3 rounded-2xl hover:bg-slate-50 transition-colors border border-slate-100/60"
-                >
-                  <div className={clsx('w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 mt-0.5', bg)}>
-                    <IconComp className="w-4 h-4" />
+                <div key={idx} className="space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-bold text-slate-700">{cat.name}</span>
+                    <span className="font-semibold text-slate-500">
+                      {cat.completed} / {cat.required} Credits ({pct}%)
+                    </span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-xs font-bold text-slate-900 truncate pr-2">{a.title}</h4>
-                      <span className="text-[10px] text-slate-400 font-medium shrink-0">
-                        {new Date(a.publishedAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-500 line-clamp-1 mt-0.5">{a.content}</p>
+                  <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all duration-700 ${
+                        pct === 100 ? 'bg-emerald-500' : pct > 50 ? 'bg-indigo-600' : 'bg-amber-500'
+                      }`}
+                      style={{ width: `${pct}%` }}
+                    />
                   </div>
                 </div>
               );
@@ -269,75 +245,50 @@ export const StudentDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Attendance Overview Donut Card (5 cols) */}
-        <div className="lg:col-span-5 bg-white rounded-3xl p-6 border border-slate-100 shadow-card flex flex-col justify-between">
-          <div>
-            <h2 className="text-base font-bold text-slate-900 mb-4">Attendance Overview</h2>
-
-            <div className="flex items-center justify-center gap-6 py-3">
-              {/* Radial Donut SVG */}
-              <div className="relative w-32 h-32 flex items-center justify-center">
-                <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                  {/* Background ring */}
-                  <path
-                    className="text-slate-100"
-                    strokeWidth="3.8"
-                    stroke="currentColor"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                  {/* Present ring (Green) */}
-                  <path
-                    className="text-emerald-500 transition-all duration-1000 ease-out"
-                    strokeDasharray={`${attendanceOverview.presentPercentage}, 100`}
-                    strokeWidth="3.8"
-                    strokeLinecap="round"
-                    stroke="currentColor"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                  <span className="text-2xl font-black text-slate-900">
-                    {attendanceOverview.overallPercentage}%
-                  </span>
-                  <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-tight">
-                    Overall
-                  </span>
-                </div>
+        {/* Quick Academic Actions & Alerts (5 cols) */}
+        <div className="lg:col-span-5 space-y-4">
+          {/* Pre-Registration Card */}
+          <div className="bg-gradient-to-br from-indigo-50 to-blue-50/50 rounded-3xl p-6 border border-indigo-100 shadow-card">
+            <div className="flex items-start justify-between">
+              <div className="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black">
+                <ClipboardList className="w-5 h-5" />
               </div>
-
-              {/* Legend */}
-              <div className="space-y-2 text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                  <span className="text-slate-600 font-medium">Present:</span>
-                  <span className="font-bold text-slate-900">{attendanceOverview.presentPercentage}%</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                  <span className="text-slate-600 font-medium">Absent:</span>
-                  <span className="font-bold text-slate-900">{attendanceOverview.absentPercentage}%</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                  <span className="text-slate-600 font-medium">Leave:</span>
-                  <span className="font-bold text-slate-900">{attendanceOverview.leavePercentage}%</span>
-                </div>
-              </div>
+              <span className="px-2.5 py-1 rounded-full text-[10px] font-black bg-emerald-100 text-emerald-800 uppercase tracking-wide">
+                Window Open
+              </span>
             </div>
+            <h4 className="text-sm font-bold text-slate-900 mt-3">Pre-Registration Offer (Semester 5)</h4>
+            <p className="text-xs text-slate-600 mt-1">
+              Select your elective choices and core courses for the upcoming 2026-2027 academic year.
+            </p>
+            <Link
+              to="/academics/pre-registration"
+              className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-indigo-700 hover:text-indigo-800"
+            >
+              <span>Go to Pre-Registration</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
 
-          {/* Security / JWT Protection Banner (matching mockup pill) */}
-          <div className="mt-4 p-3 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-              <div>
-                <div className="font-bold text-emerald-950 text-[11px]">Your account is secure</div>
-                <div className="text-[10px] text-emerald-700">Protected by JWT authentication</div>
+          {/* Backlog Add / Drop Alert */}
+          <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
+            <div className="flex items-start justify-between">
+              <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-black">
+                <RefreshCw className="w-5 h-5" />
               </div>
+              <span className="text-xs font-bold text-slate-400">Add / Drop</span>
             </div>
-            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+            <h4 className="text-sm font-bold text-slate-900 mt-3">Backlog & Course Changes</h4>
+            <p className="text-xs text-slate-600 mt-1">
+              {backlogData?.length || 0} eligible courses available for backlog registration or grade improvement.
+            </p>
+            <Link
+              to="/academics/add-drop"
+              className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-amber-700 hover:text-amber-800"
+            >
+              <span>Manage Backlog Courses</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
       </div>

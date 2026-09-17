@@ -18,4 +18,10 @@ router.post('/courses', requireAuth, authorize('ADMIN', 'SUPER_ADMIN', 'DEPT_HEA
 router.post('/enrollments', requireAuth, authorize('ADMIN', 'SUPER_ADMIN', 'DEPT_HEAD'), AcademicController.enrollStudent);
 router.get('/enrollments/me', requireAuth, AcademicController.getMyEnrollments);
 
+router.get('/disciplines', requireAuth, AcademicController.getDisciplines);
+router.get('/credit-standing', requireAuth, AcademicController.getCreditStanding);
+router.get('/registration/offerings', requireAuth, AcademicController.getRegistrationOfferings);
+router.get('/registration/backlog', requireAuth, AcademicController.getBacklogCourses);
+router.get('/timetable', requireAuth, AcademicController.getStudentTimetable);
+
 export default router;

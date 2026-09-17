@@ -15,6 +15,12 @@ import { StudentAssignmentsPage } from './pages/student/StudentAssignmentsPage';
 import { StudentResultsPage } from './pages/student/StudentResultsPage';
 import { StudentPlacementsPage } from './pages/student/StudentPlacementsPage';
 import { StudentResumePage } from './pages/student/StudentResumePage';
+import { StudentDisciplinesPage } from './pages/student/StudentDisciplinesPage';
+import { StudentRegistrationPage } from './pages/student/StudentRegistrationPage';
+import { StudentAddDropBacklogPage } from './pages/student/StudentAddDropBacklogPage';
+import { StudentTimetablePage } from './pages/student/StudentTimetablePage';
+import { StudentProgrammesPage } from './pages/student/StudentProgrammesPage';
+import { StudentCurriculumsPage } from './pages/student/StudentCurriculumsPage';
 
 // Faculty
 import { FacultyDashboard } from './pages/faculty/FacultyDashboard';
@@ -103,6 +109,16 @@ export function App() {
               <Route path="/grades" element={<StudentResultsPage />} />
               <Route path="/placements" element={<StudentPlacementsPage />} />
               <Route path="/resume" element={<StudentResumePage />} />
+
+              {/* Student Academics, Registration & Curriculum Routes */}
+              <Route path="/academics/pre-registration" element={<StudentRegistrationPage mode="pre" />} />
+              <Route path="/academics/registration" element={<StudentRegistrationPage mode="final" />} />
+              <Route path="/academics/add-drop" element={<StudentAddDropBacklogPage />} />
+              <Route path="/academics/swayam" element={<StudentAddDropBacklogPage />} />
+              <Route path="/academics/timetable" element={<StudentTimetablePage />} />
+              <Route path="/curriculum/disciplines" element={<StudentDisciplinesPage />} />
+              <Route path="/curriculum/programmes" element={<StudentProgrammesPage />} />
+              <Route path="/curriculum/structures" element={<StudentCurriculumsPage />} />
 
               {/* Faculty Routes */}
               <Route path="/faculty/courses" element={<FacultyCoursesPage />} />

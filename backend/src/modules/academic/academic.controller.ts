@@ -87,4 +87,50 @@ export class AcademicController {
       next(error);
     }
   }
+
+  static async getDisciplines(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const data = await AcademicService.getDisciplines();
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getCreditStanding(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const data = await AcademicService.getCreditStanding(req.user?.studentId);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getRegistrationOfferings(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const semester = req.query.semester ? Number(req.query.semester) : 5;
+      const data = await AcademicService.getRegistrationOfferings(semester);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getBacklogCourses(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const data = await AcademicService.getBacklogCourses(req.user?.studentId);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getStudentTimetable(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const data = await AcademicService.getStudentTimetable(req.user?.studentId);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
