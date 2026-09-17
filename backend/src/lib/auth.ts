@@ -2,6 +2,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { config } from '../config';
 
+import { randomUUID } from 'crypto';
+
 export interface TokenPayload {
   userId: string;
   email: string;
@@ -20,12 +22,14 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
 export function generateAccessToken(payload: TokenPayload): string {
   return jwt.sign(payload, config.jwt.secret, {
     expiresIn: config.jwt.expiresIn as any,
+    jwtid: randomUUID(),
   });
 }
 
 export function generateRefreshToken(payload: TokenPayload): string {
   return jwt.sign(payload, config.jwt.refreshSecret, {
     expiresIn: config.jwt.refreshExpiresIn as any,
+    jwtid: randomUUID(),
   });
 }
 

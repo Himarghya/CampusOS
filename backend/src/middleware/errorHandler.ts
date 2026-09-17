@@ -22,14 +22,40 @@ export function errorHandler(
   res: Response,
   next: NextFunction
 ): void {
-  logger.error({
-    msg: err.message,
-    stack: err.stack,
-    url: req.originalUrl,
-    method: req.method,
-  });
+  // Handle generic JWT errors
+  if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+    logger.warn({
+      msg: err.message,
+      url: req.originalUrl,
+      method: req.method,
+    });
+    res.status(401).json({
+      success: false,
+      error: {
+        code: 'UNAUTHORIZED',
+        message: 'Authentication token is invalid or expired',
+      },
+    });
+    return;
+  }
 
   if (err instanceof AppError) {
+    if (err.statusCode < 500) {
+      logger.warn({
+        msg: err.message,
+        code: err.code,
+        url: req.originalUrl,
+        method: req.method,
+      });
+    } else {
+      logger.error({
+        msg: err.message,
+        stack: err.stack,
+        url: req.originalUrl,
+        method: req.method,
+      });
+    }
+
     res.status(err.statusCode).json({
       success: false,
       error: {
@@ -56,17 +82,12 @@ export function errorHandler(
     return;
   }
 
-  // Handle generic JWT errors
-  if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
-    res.status(401).json({
-      success: false,
-      error: {
-        code: 'UNAUTHORIZED',
-        message: 'Authentication token is invalid or expired',
-      },
-    });
-    return;
-  }
+  logger.error({
+    msg: err.message,
+    stack: err.stack,
+    url: req.originalUrl,
+    method: req.method,
+  });
 
   res.status(500).json({
     success: false,
