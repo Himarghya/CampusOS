@@ -7,7 +7,7 @@ export const ProfilePage: React.FC = () => {
   const { user } = useAuth();
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300 max-w-4xl mx-auto">
+    <div className="space-y-6 animate-in fade-in duration-300 w-full">
       <div>
         <h1 className="text-2xl font-black text-slate-900 tracking-tight">User Account & Profile</h1>
         <p className="text-xs text-slate-500 mt-1">Identity verification, role assignment, and institutional details</p>

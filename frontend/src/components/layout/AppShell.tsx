@@ -8,7 +8,7 @@ export const AppShell: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex">
+    <div className="min-h-screen w-full bg-[#F8FAFC] flex">
       {/* Desktop Sidebar */}
       <div className="hidden lg:block shrink-0">
         <Sidebar />
@@ -27,10 +27,10 @@ export const AppShell: React.FC = () => {
         </div>
       )}
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 pb-20 lg:pb-8">
+      {/* Main Content Area: Fluid 100% Full-Width Screen Coverage */}
+      <div className="flex-1 flex flex-col min-w-0 w-full pb-20 lg:pb-8">
         <Topbar onToggleMobile={() => setMobileMenuOpen(true)} />
-        <main className="flex-1 p-6 lg:p-8 max-w-7xl mx-auto w-full">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 w-full">
           <Outlet />
         </main>
       </div>

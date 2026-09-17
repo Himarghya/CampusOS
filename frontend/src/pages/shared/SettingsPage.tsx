@@ -34,13 +34,13 @@ export const SettingsPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300 max-w-2xl">
+    <div className="space-y-6 animate-in fade-in duration-300 w-full">
       <div>
         <h1 className="text-2xl font-black text-slate-900 tracking-tight">Security & Settings</h1>
         <p className="text-xs text-slate-500 mt-1">Manage password credentials and account security settings</p>
       </div>
 
-      <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
+      <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-card">
         <h2 className="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
           <Lock className="w-4 h-4 text-indigo-600" />
           <span>Change Password</span>
@@ -59,7 +59,7 @@ export const SettingsPage: React.FC = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 max-w-xl">
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
               Current Password
