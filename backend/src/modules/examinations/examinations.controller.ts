@@ -30,6 +30,24 @@ export class ExaminationsController {
     }
   }
 
+  static async update(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const data = await ExaminationsService.updateExam(req.params.id, req.body, req);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async delete(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const data = await ExaminationsService.deleteExam(req.params.id, req);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async submitMarks(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const data = await ExaminationsService.submitMarks({

@@ -53,6 +53,63 @@ export class ExaminationsService {
     });
   }
 
+  static async updateExam(
+    id: string,
+    data: {
+      name?: string;
+      type?: string;
+      startDate?: string;
+      endDate?: string;
+      academicYearId?: string;
+      semesterId?: string;
+      status?: string;
+    },
+    req?: any
+  ) {
+    const updateData: any = {};
+    if (data.name !== undefined) updateData.name = data.name;
+    if (data.type !== undefined) updateData.type = data.type;
+    if (data.startDate !== undefined) updateData.startDate = new Date(data.startDate);
+    if (data.endDate !== undefined) updateData.endDate = new Date(data.endDate);
+    if (data.academicYearId !== undefined) updateData.academicYearId = data.academicYearId;
+    if (data.semesterId !== undefined) updateData.semesterId = data.semesterId;
+    if (data.status !== undefined) updateData.status = data.status;
+
+    const exam = await prisma.exam.update({
+      where: { id },
+      data: updateData,
+    });
+
+    await logAudit({
+      req,
+      actorId: req?.user?.userId,
+      action: 'EXAM_UPDATED',
+      entityType: 'Exam',
+      entityId: id,
+      details: { updatedFields: Object.keys(updateData) },
+    });
+
+    return exam;
+  }
+
+  static async deleteExam(id: string, req?: any) {
+    const exam = await prisma.exam.findUnique({ where: { id } });
+    if (!exam) throw new AppError('Exam not found', 404, 'NOT_FOUND');
+
+    await prisma.exam.delete({ where: { id } });
+
+    await logAudit({
+      req,
+      actorId: req?.user?.userId,
+      action: 'EXAM_DELETED',
+      entityType: 'Exam',
+      entityId: id,
+      details: { examName: exam.name },
+    });
+
+    return { message: 'Exam deleted successfully', id };
+  }
+
   static async submitMarks(data: {
     examId: string;
     courseId: string;
