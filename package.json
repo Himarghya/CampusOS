@@ -1,0 +1,17 @@
+{
+  "name": "campusos-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CampusOS — Smart Campus Operating System (Full-Stack Deployment)",
+  "scripts": {
+    "build": "npm --prefix backend install && npm --prefix backend run build && npm --prefix frontend install && npm --prefix frontend run build",
+    "start": "npm --prefix backend start"
+  },
+  "keywords": [
+    "campusos",
+    "monorepo",
+    "full-stack"
+  ],
+  "author": "CampusOS Team",
+  "license": "ISC"
+}

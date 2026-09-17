@@ -65,6 +65,31 @@ export function createApp() {
 
   app.use('/api/v1', apiRouter);
 
+  // Serve frontend build if present (for single web service deployment on Render/Docker)
+  const possibleDistPaths = [
+    path.join(__dirname, '../../frontend/dist'),
+    path.join(__dirname, '../frontend/dist'),
+    path.join(process.cwd(), 'frontend/dist'),
+  ];
+
+  let frontendDistPath = '';
+  for (const p of possibleDistPaths) {
+    if (require('fs').existsSync(p)) {
+      frontendDistPath = p;
+      break;
+    }
+  }
+
+  if (frontendDistPath) {
+    app.use(express.static(frontendDistPath));
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api') || req.path.startsWith('/uploads') || req.path === '/health') {
+        return next();
+      }
+      res.sendFile(path.join(frontendDistPath, 'index.html'));
+    });
+  }
+
   // 404 handler
   app.use((req, res) => {
     res.status(404).json({
